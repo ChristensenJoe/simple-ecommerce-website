@@ -1,23 +1,24 @@
-import logo from './logo.svg';
+import React, {useState, useEffect} from "react";
+import 'fomantic-ui-css/semantic.css';
 import './App.css';
+import HeaderComponent from "./components/HeaderComponent";
+import Products from "./components/Products"
 
 function App() {
+const [products, setProducts] = useState(null);
+
+useEffect(() => {
+  fetch("http://localhost:3001/products")
+  .then(res => res.json())
+  .then(data => {setProducts(data)});
+}, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <HeaderComponent />
+        {products && <Products 
+                      products={products} 
+                     />}
     </div>
   );
 }
